@@ -9,3 +9,142 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+//사용자
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  password     String
+  username     String
+  phone_number String
+  is_host      Boolean  @default(false)
+  created_at   DateTime @default(now())
+
+  users_dormitories UserDormitoryLike[]
+
+  @@map("users")
+}
+
+//숙소
+model Catergory {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+
+  Dormitories Dormitory[]
+
+  @@map("categories")
+}
+
+model Dormitory {
+  id               Int       @id @default(autoincrement())
+  name             String
+  catergories      Catergory @relation(fields: [category_id], references: [id])
+  category_id      Int
+  comment          String    @db.VarChar(100)
+  main_description String?   @db.VarChar(400)
+  sub_description  String?   @db.VarChar(600)
+  is_like          Boolean   @default(false)
+  view_count       Int
+  created_at       DateTime  @default(now())
+
+  rooms              Room[]
+  users_dormitories  UserDormitoryLike[]
+  dormitories_images DormitoryImage[]
+  cities             City[]
+  districts          District[]
+  rooms_specials     RoomSpecial[]
+  recommend_places   RecommendPlace[]
+  @@map("dormitories")
+}
+
+model DormitoryImage {
+  id           Int       @id @default(autoincrement())
+  image_url    String
+  dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
+  dormitory_id Int
+  created_at   DateTime  @default(now())
+
+  @@map("dormitories_images")
+}
+
+//위치
+model City {
+  id           Int       @id @default(autoincrement())
+  dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
+  dormitory_id Int
+  name         String
+  created_at   DateTime  @default(now())
+
+
+  @@map("cities")
+}
+
+model District {
+  id           Int       @id @default(autoincrement())
+  dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
+  dormitory_id Int
+  name         String
+  created_at   DateTime  @default(now())
+
+  @@map("districts")
+}
+
+model Room {
+  id           Int       @id @default(autoincrement())
+  dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
+  dormitory_id Int
+  name         String
+  head_count   Int
+  price        Decimal
+  created_at   DateTime  @default(now())
+
+  rooms_images RoomImage[]
+  @@map("rooms")
+}
+
+model RoomImage {
+  id         Int      @id @default(autoincrement())
+  image_url  String
+  rooms      Room     @relation(fields: [room_id], references: [id])
+  room_id    Int
+  created_at DateTime @default(now())
+
+  @@map("rooms_images")
+}
+
+model RoomSpecial {
+  id           Int       @id @default(autoincrement())
+  dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
+  dormitory_id Int
+  title        String
+  description  String    @db.VarChar(600)
+  created_at   DateTime  @default(now())
+
+  @@map("rooms_specials")
+}
+
+//관광
+model RecommendPlace {
+  id           Int       @id @default(autoincrement())
+  dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
+  dormitory_id Int
+  name         String
+  type         String
+  description  String    @db.VarChar(300)
+  created_at   DateTime  @default(now())
+
+  @@map("recommend_places")
+}
+
+//중간테이블
+model UserDormitoryLike {
+  id           Int       @id @default(autoincrement())
+  users        User      @relation(fields: [user_id], references: [id])
+  user_id      Int
+  dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
+  dormitory_id Int
+  created_at   DateTime  @default(now())
+
+  @@map("users_dormitories_like")
+}
