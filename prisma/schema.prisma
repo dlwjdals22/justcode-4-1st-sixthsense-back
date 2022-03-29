@@ -18,7 +18,7 @@ model User {
   username     String
   phone_number String
   is_host      Boolean  @default(false)
-  create_at    DateTime @default(now())
+  created_at   DateTime @default(now())
 
   users_dormitories UserDormitoryLike[]
 
@@ -27,9 +27,9 @@ model User {
 
 //숙소
 model Catergory {
-  id        Int      @id @default(autoincrement())
-  name      String
-  create_at DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
 
   Dormitories Dormitory[]
 
@@ -46,7 +46,7 @@ model Dormitory {
   sub_description  String?   @db.VarChar(600)
   is_like          Boolean   @default(false)
   view_count       Int
-  create_at        DateTime  @default(now())
+  created_at       DateTime  @default(now())
 
   rooms              Room[]
   users_dormitories  UserDormitoryLike[]
@@ -63,7 +63,7 @@ model DormitoryImage {
   image_url    String
   dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
   dormitory_id Int
-  create_at    DateTime  @default(now())
+  created_at   DateTime  @default(now())
 
   @@map("dormitories_images")
 }
@@ -74,7 +74,7 @@ model City {
   dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
   dormitory_id Int
   name         String
-  create_at    DateTime  @default(now())
+  created_at   DateTime  @default(now())
 
 
   @@map("cities")
@@ -85,7 +85,7 @@ model District {
   dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
   dormitory_id Int
   name         String
-  create_at    DateTime  @default(now())
+  created_at   DateTime  @default(now())
 
   @@map("districts")
 }
@@ -97,18 +97,18 @@ model Room {
   name         String
   head_count   Int
   price        Decimal
-  create_at    DateTime  @default(now())
+  created_at   DateTime  @default(now())
 
   rooms_images RoomImage[]
   @@map("rooms")
 }
 
 model RoomImage {
-  id        Int      @id @default(autoincrement())
-  image_url String
-  rooms     Room     @relation(fields: [room_id], references: [id])
-  room_id   Int
-  create_at DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  image_url  String
+  rooms      Room     @relation(fields: [room_id], references: [id])
+  room_id    Int
+  created_at DateTime @default(now())
 
   @@map("rooms_images")
 }
@@ -119,7 +119,7 @@ model RoomSpecial {
   dormitory_id Int
   title        String
   description  String    @db.VarChar(600)
-  create_at    DateTime  @default(now())
+  created_at   DateTime  @default(now())
 
   @@map("rooms_specials")
 }
@@ -132,7 +132,7 @@ model RecommendPlace {
   name         String
   type         String
   description  String    @db.VarChar(300)
-  create_at    DateTime  @default(now())
+  created_at   DateTime  @default(now())
 
   @@map("recommend_places")
 }
@@ -144,7 +144,7 @@ model UserDormitoryLike {
   user_id      Int
   dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
   dormitory_id Int
-  create_at    DateTime  @default(now())
+  created_at   DateTime  @default(now())
 
   @@map("users_dormitories_like")
 }
