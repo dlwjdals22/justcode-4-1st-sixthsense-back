@@ -1,9 +1,9 @@
 const userService = require('../services/userService');
 
 const validateForm = async (req, res, next) => {
-  const { email, password, userName, phoneNumber } = req.body;
+  const { email, password, username, phoneNumber } = req.body;
 
-  if (!email || !password || !userName || !phoneNumber) {
+  if (!email || !password || !username || !phoneNumber) {
     res.status(400).json({ message: 'KEY_ERROR' });
     return;
   }
@@ -13,10 +13,9 @@ const validateForm = async (req, res, next) => {
 
 const signUp = async (req, res) => {
   try {
-    const { email, password, userName, phoneNumber } = req.body;
+    const { email, password, username, phoneNumber } = req.body;
 
-    await userService.signUp(email, password, userName, phoneNumber);
-    console.log(2);
+    await userService.signUp(email, password, username, phoneNumber);
     return res.status(201).json({
       message: 'SIGNUP_SUCCESS',
     });
