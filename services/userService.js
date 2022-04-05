@@ -1,6 +1,6 @@
-const userDao = require('../models/userDao');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const userDao = require("../models/userDao");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const signUp = async (email, password, userName, phoneNumber) => {
   // password validation
@@ -20,4 +20,17 @@ const signUp = async (email, password, userName, phoneNumber) => {
   return createUser;
 };
 
-module.exports = { signUp };
+const login = async (email, password) => {
+  try {
+    if (!email || !password) {
+      const error = new Error("KEY_ERROR");
+      error.statusCode = 400;
+      throw arr;
+    }
+  } catch (err) {
+    console(err);
+    next(err);
+  }
+};
+
+module.exports = { signUp, login };
