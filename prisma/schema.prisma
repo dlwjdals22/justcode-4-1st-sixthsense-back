@@ -44,6 +44,10 @@ model Dormitory {
   comment          String    @db.VarChar(100)
   main_description String?   @db.VarChar(400)
   sub_description  String?   @db.VarChar(600)
+  cities           City      @relation(fields: [city_id], references: [id])
+  city_id          Int
+  districts        District  @relation(fields: [district_id], references: [id])
+  district_id      Int
   is_like          Boolean   @default(false)
   view_count       Int
   created_at       DateTime  @default(now())
@@ -51,10 +55,9 @@ model Dormitory {
   rooms              Room[]
   users_dormitories  UserDormitoryLike[]
   dormitories_images DormitoryImage[]
-  cities             City[]
-  districts          District[]
   rooms_specials     RoomSpecial[]
   recommend_places   RecommendPlace[]
+
   @@map("dormitories")
 }
 
@@ -70,23 +73,21 @@ model DormitoryImage {
 
 //위치
 model City {
-  id           Int       @id @default(autoincrement())
-  dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
-  dormitory_id Int
-  name         String
-  created_at   DateTime  @default(now())
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  created_at DateTime @default(now())
 
 
+  dormitories Dormitory[]
   @@map("cities")
 }
 
 model District {
-  id           Int       @id @default(autoincrement())
-  dormitories  Dormitory @relation(fields: [dormitory_id], references: [id])
-  dormitory_id Int
-  name         String
-  created_at   DateTime  @default(now())
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+  created_at DateTime @default(now())
 
+  dormitories Dormitory[]
   @@map("districts")
 }
 
