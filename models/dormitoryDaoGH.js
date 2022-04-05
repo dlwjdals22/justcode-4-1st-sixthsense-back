@@ -23,25 +23,30 @@ const getSlide = async () => {
     ci.name AS city,
     dis.name AS district,
     (SELECT 
-      JSON_ARRAYAGG(y.price) AS price
+      JSON_ARRAYAGG(y.price)
       FROM dormitories x
       LEFT JOIN rooms y ON y.dormitory_id = x.id
       WHERE x.id = d.id
       GROUP BY x.id
       ) AS price,
     (SELECT 
-      JSON_ARRAYAGG(y.head_count) AS price
+      JSON_ARRAYAGG(y.head_count) 
       FROM dormitories x
       LEFT JOIN rooms y ON y.dormitory_id = x.id
       WHERE x.id = d.id
       GROUP BY x.id
       ) AS headCount,
-    JSON_ARRAYAGG(di.image_url) AS imageURL 
+    (SELECT 
+      JSON_ARRAYAGG(y.image_url)
+      FROM dormitories x
+      LEFT JOIN dormitories_images y ON y.dormitory_id = x.id
+      WHERE x.id = d.id
+      GROUP BY x.id
+    ) AS imageUrl
   FROM dormitories d
   LEFT JOIN categories c ON c.id = d.category_id
   LEFT JOIN cities ci ON ci.id = d.city_id
   LEFT JOIN districts dis ON dis.id = d.district_id
-  LEFT JOIN dormitories_images di ON d.id = di.dormitory_id
   LEFT JOIN rooms r ON d.id = r.dormitory_id
   GROUP BY d.id
   `;
