@@ -1,6 +1,6 @@
-const userDao = require('../models/userDao');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const userDao = require("../models/userDao");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const signUp = async (email, password, username, phoneNumber) => {
   // password validation
@@ -60,21 +60,30 @@ const signUp = async (email, password, username, phoneNumber) => {
   return createUser;
 };
 
-const isLike = () => {
-  const decoded = jwt.decode(token);
-  // 디코디드 한 토큰에서 email 추출
+const logIn = async (email, password) => {
+  console.log(3)
+  const user = await userDao.getUserEmailByEmail(email);
+  console.log(4);
 
-  // user id, dormitory id 전달하기
-  const isLike = await userDao.getLikeByEmailDorm();
-
-  if (isLike.length) {
-    // isLike 존재하면 좋아요 off => data delete
-    await userDao.likeOff();
-  } else {
-    // isLike 존재하지 않으면 좋아요 on => data insert
-    await userDao.likeOn();
+  if (user.length === 0) {
+    const error = new Error("INVALID_USER");
+    error.statusCode = 409;
+    throw error;
   }
-  return;
+  console.log(5);
+  if (!email || !password) {
+    const error = new Error("KEY_ERROR");
+    error.statusCode = 400;
+    throw arr;
+  }
+  console.log(6);
+  const loginToken = jwt.sign({
+    user_id: user.id
+  }, process.env.SECRET_KEY)
+  console.log(7);
+
+  return loginToken
 };
 
-module.exports = { signUp, isLike };
+module.exports = { signUp, logIn };
+
