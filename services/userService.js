@@ -1,6 +1,6 @@
-const userDao = require('../models/userDao');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const userDao = require("../models/userDao");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const signUp = async (email, password, username, phoneNumber) => {
   // password validation
@@ -60,4 +60,34 @@ const signUp = async (email, password, username, phoneNumber) => {
   return createUser;
 };
 
+<<<<<<< HEAD
 module.exports = { signUp };
+=======
+const logIn = async (email, password) => {
+  console.log(3)
+  const user = await userDao.getUserEmailByEmail(email);
+  console.log(4);
+
+  if (user.length === 0) {
+    const error = new Error("INVALID_USER");
+    error.statusCode = 409;
+    throw error;
+  }
+  console.log(5);
+  if (!email || !password) {
+    const error = new Error("KEY_ERROR");
+    error.statusCode = 400;
+    throw arr;
+  }
+  console.log(6);
+  const loginToken = jwt.sign({
+    user_id: user.id
+  }, process.env.SECRET_KEY)
+  console.log(7);
+
+  return loginToken
+};
+
+module.exports = { signUp, logIn };
+
+>>>>>>> 8725188f3936bf262a00155e233160fedbd13f52
