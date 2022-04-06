@@ -11,15 +11,25 @@ const dormitoriesImage = async (req, res, next) => {
   }
 };
 
-const slide = async (req, res, next) => {
+const dormitories = async (req, res, next) => {
   try {
-    const getSlide = await dormitoryService.slide();
+    const getDormitories = await dormitoryService.dormitories();
 
-    return res.status(200).json({ data: getSlide });
+    return res.status(200).json({ data: getDormitories });
   } catch (err) {
     console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
 
-module.exports = { slide, dormitoriesImage };
+const cities = async (req, res, next) => {
+  try {
+    const getCities = await dormitoryService.cities();
+    return res.status(200).json({ data: getCities });
+  } catch (error) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+module.exports = { dormitories, dormitoriesImage, cities };

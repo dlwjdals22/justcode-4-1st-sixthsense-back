@@ -5,8 +5,12 @@ const dormitoriesImage = async () => {
   return getDormitoriesImage;
 };
 
-const slide = async () => {
+const dormitories = async () => {
   return (getMiddleSlide = await dormitoryDao.getSlide());
 };
 
-module.exports = { slide, dormitoriesImage };
+const cities = async () => {
+  return (getCities = await dormitoryDao.getCities());
+};
+
+module.exports = { dormitories, dormitoriesImage, cities };

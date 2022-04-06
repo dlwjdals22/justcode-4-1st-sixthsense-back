@@ -52,4 +52,10 @@ const getSlide = async () => {
   `;
 };
 
-module.exports = { getSlide, getDormitoriesImage };
+const getCities = async () => {
+  return prisma.$queryRaw`
+  SELECT id, name FROM cities
+  `;
+};
+
+module.exports = { getSlide, getDormitoriesImage, getCities };
