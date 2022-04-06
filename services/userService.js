@@ -1,6 +1,6 @@
-const userDao = require("../models/userDao");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const userDao = require('../models/userDao');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const signUp = async (email, password, username, phoneNumber) => {
   // password validation
@@ -60,43 +60,43 @@ const signUp = async (email, password, username, phoneNumber) => {
   return createUser;
 };
 
-<<<<<<< HEAD
-module.exports = { signUp };
-=======
 const logIn = async (email, password) => {
-
-  //이메일 또는 비밀번호 입력했는지 확인
-  if (!email || !password) {
-    const error = new Error("KEY_ERROR");
-    error.statusCode = 400;
-    throw arr;
-  }
-
   // 회원가입한 유저인지 아닌지 확인
   const user = await userDao.getUserEmailByEmail(email);
   if (user.length === 0) {
-    const error = new Error("INVALID_USER");
+    const error = new Error('INVALID_USER');
     error.statusCode = 409;
     throw error;
   }
 
   // 비밀번호 맞는지 확인
   const loginTryUser_password = await userDao.passwordIsCorrect(email);
-  const isCorrect = bcrypt.compareSync(password, loginTryUser_password[0].password);
+  const isCorrect = bcrypt.compareSync(
+    password,
+    loginTryUser_password[0].password
+  );
 
   if (!isCorrect) {
-    const error = new Error("INVALID_USER")
+    const error = new Error('INVALID_USER');
     error.statusCode = 400;
     throw error;
   }
 
-  const loginToken = jwt.sign({
-    user_id: user.id
-  }, process.env.SECRET_KEY)
+  const loginToken = jwt.sign(
+    {
+      user_id: user.id,
+    },
+    process.env.SECRET_KEY
+  );
 
-  return loginToken
+  const loginToken = jwt.sign(
+    {
+      user_id: user.id,
+    },
+    process.env.SECRET_KEY
+  );
+
+  return loginToken;
 };
 
 module.exports = { signUp, logIn };
-
->>>>>>> 8725188f3936bf262a00155e233160fedbd13f52
