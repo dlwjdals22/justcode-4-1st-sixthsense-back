@@ -4,6 +4,6 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 
 router.post("/signup", userController.validateForm, userController.signUp);
-router.post("/login"); // userController에 로그인 관련..
+router.post("/login", userController.logIn);
 
 module.exports = router;

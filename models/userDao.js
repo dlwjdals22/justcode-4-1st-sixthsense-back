@@ -6,13 +6,9 @@ const createUser = async (email, encryptPw, userName, phoneNumber) => {
     INSERT INTO users(email, password, username, phone_number) VALUES (${email}, ${encryptPw}, ${userName}, ${phoneNumber})`;
 };
 
-const loginUser = async (email) => {
-  const user = await prisma.$queryRaw`SELECT * FROM users WHERE email=${email}`;
-  if (user.length === 0) {
-    const error = new Error("INVALID_USER");
-    error.statusCode = 409;
-    throw error;
-  }
+const getUserEmailByEmail = async (email) => {
+  return await prisma.$queryRaw`
+    SELECT email FROM users WHERE email=${email}`;
 };
 
-module.exports = { createUser, loginUser };
+module.exports = { createUser, getUserEmailByEmail };

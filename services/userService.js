@@ -20,7 +20,7 @@ const signUp = async (email, password, userName, phoneNumber) => {
   return createUser;
 };
 
-const login = async (email, password) => {
+const logIn = async (email, password) => {
   try {
     if (!email || !password) {
       const error = new Error("KEY_ERROR");
@@ -33,4 +33,4 @@ const login = async (email, password) => {
   }
 };
 
-module.exports = { signUp, login };
+module.exports = { signUp, logIn };
