@@ -25,4 +25,18 @@ const signUp = async (req, res) => {
   }
 };
 
-module.exports = { validateForm, signUp };
+const isLike = async (req, res) => {
+  try {
+    const { token } = req.headers;
+    // 프론트단에서 숙소id 받아오기
+
+    // 토큰 , 이메일 인자로 전달
+    await userService.isLike();
+    return;
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+module.exports = { validateForm, signUp, isLike };
