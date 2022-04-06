@@ -29,10 +29,11 @@ const signUp = async (req, res) => {
 const logIn = async (req, res) => {
   const { email, password } = req.body;
   try {
-    await userService.logIn(email, password);
+    const token = await userService.logIn(email, password);
 
     return res.status(201).json({
       message: 'LOGIN_SUCCESS',
+      token: token
     });
 
   } catch (err) {

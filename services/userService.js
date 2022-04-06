@@ -82,7 +82,7 @@ const logIn = async (email, password) => {
   const isCorrect = bcrypt.compareSync(password, loginTryUser_password[0].password);
 
   if (!isCorrect) {
-    const error = new Error("PASSWORD_IS_NOT_CORRECT")
+    const error = new Error("INVALID_USER")
     error.statusCode = 400;
     throw error;
   }
