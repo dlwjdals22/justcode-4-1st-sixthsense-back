@@ -19,7 +19,9 @@ const server = http.createServer(app);
 const start = async () => {
   // 서버를 시작하는 함수입니다.
   try {
-    server.listen(8000, () => console.log(`Server is listening on 8000`));
+    server.listen(process.env.PORT, () =>
+      console.log(`Server is listening on ${process.env.PORT}`)
+    );
   } catch (err) {
     console.error(err);
     //    await prisma.$disconnect() // 에러가 발생했을 시에 database 연결을 종료합니다.
