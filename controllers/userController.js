@@ -26,18 +26,4 @@ const signUp = async (req, res) => {
   }
 };
 
-const logIn = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    await userService.logIn(email, password);
-    return res.status(201).json({
-      message: 'LOGIN_SUCCESS',
-    });
-  } catch (err) {
-    console.log(err);
-    return res.status(err.statusCode || 500).json({ message: err.message })
-  }
-}
-
-module.exports = { validateForm, signUp, logIn };
+module.exports = { validateForm, signUp };
