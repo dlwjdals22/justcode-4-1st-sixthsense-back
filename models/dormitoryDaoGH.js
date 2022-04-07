@@ -58,8 +58,15 @@ const getCities = async () => {
   `;
 };
 
-const getSearchedDormitories = async (keyword, isAll, first, second, third, fourth) => {
-  keyword = '%'+keyword+'%'
+const getSearchedDormitories = async (
+  keyword,
+  isAll,
+  first,
+  second,
+  third,
+  fourth
+) => {
+  keyword = "%" + keyword + "%";
   return await prisma.$queryRaw`
   SELECT * FROM
   (SELECT 
@@ -81,7 +88,7 @@ const getSearchedDormitories = async (keyword, isAll, first, second, third, four
   WHERE x.id = d.id
   GROUP BY x.id) AS headCount,
 (SELECT 
-  JSON_ARRAYAGG(di.image_url)
+  JSON_ARRAYAGG(y.image_url)
   FROM dormitories x
   JOIN dormitories_images y ON y.dormitory_id = x.id
   WHERE d.id = x.id
@@ -91,16 +98,21 @@ JOIN categories c ON d.category_id = c.id
 JOIN rooms r ON d.id = r.dormitory_id
 JOIN cities ci ON d.city_id = ci.id
 JOIN districts dis ON d.district_id = dis.id
-WHERE d.name LIKE ${keyword} OR city.name LIKE ${keyword} OR dis.name LIKE ${keyword}
+WHERE d.name LIKE ${keyword} OR ci.name LIKE ${keyword} OR dis.name LIKE ${keyword}
 GROUP BY d.id
 ORDER BY d.id) AS myTable
-${!isAll ?
-  Prisma.sql`
+${
+  !isAll
+    ? Prisma.sql`
   WHERE category in (${first}, ${second}, ${third}, ${fourth})`
-  :
-  Prisma.empty
+    : Prisma.empty
 }
-;`
-}
+;`;
+};
 
-module.exports = { getSlide, getDormitoriesImage, getCities, getSearchedDormitories };
+module.exports = {
+  getSlide,
+  getDormitoriesImage,
+  getCities,
+  getSearchedDormitories,
+};

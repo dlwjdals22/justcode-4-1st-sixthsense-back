@@ -13,22 +13,47 @@ const cities = async () => {
   return (getCities = await dormitoryDao.getCities());
 };
 
-const getSearchedDormitories = async (keyword,category) => {
+const getSearchedDormitories = async (keyword, category) => {
   let isAll = false;
-  if(category.length===1 && category[0]===''){
-     isAll = true; 
+  if (category.length === 1 && category[0] === "") {
+    isAll = true;
   }
+  const temptArr = [];
+  category.forEach((name) => {
+    if (name === "pension") {
+      temptArr.push("펜션");
+    }
+    if (name === "guest") {
+      temptArr.push("게스트하우스");
+    }
+    if (name === "hotel") {
+      temptArr.push("호텔");
+    }
+    if (name === "rental") {
+      temptArr.push("렌탈 하우스");
+    }
+  });
 
-  let first = category[0]!==undefined? category[0] : ' ';
-  let second = category[1]!==undefined? category[1] : ' ';
-  let third = category[2]!==undefined? category[2] : ' ';
-  let fourth = category[3]!==undefined? category[3] : '  ';
+  let first = temptArr[0] !== undefined ? temptArr[0] : " ";
+  let second = temptArr[1] !== undefined ? temptArr[1] : " ";
+  let third = temptArr[2] !== undefined ? temptArr[2] : " ";
+  let fourth = temptArr[3] !== undefined ? temptArr[3] : "  ";
 
-  
-  
-  const searchedDormitories = await dormListDao.getSearchedDormitories(keyword, isAll, first, second, third, fourth)
+  const searchedDormitories = await dormitoryDao.getSearchedDormitories(
+    keyword,
+    isAll,
+    first,
+    second,
+    third,
+    fourth
+  );
 
-  return searchedDormitories
+  return searchedDormitories;
 };
 
-module.exports = { dormitories, dormitoriesImage, cities, getSearchedDormitories };
+module.exports = {
+  dormitories,
+  dormitoriesImage,
+  cities,
+  getSearchedDormitories,
+};
