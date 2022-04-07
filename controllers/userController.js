@@ -1,19 +1,12 @@
 const userService = require('../services/userService');
 
-const validateForm = async (req, res, next) => {
-  const { email, password, username, phoneNumber } = req.body;
-
-  if (!email || !password || !username || !phoneNumber) {
-    res.status(400).json({ message: 'KEY_ERROR' });
-    return;
-  }
-
-  next();
-};
-
 const signUp = async (req, res) => {
   try {
     const { email, password, username, phoneNumber } = req.body;
+
+    if (!email || !password || !username || !phoneNumber) {
+      return res.status(400).json({ message: 'KEY_ERROR' });
+    }
 
     await userService.signUp(email, password, username, phoneNumber);
     return res.status(201).json({
@@ -26,19 +19,44 @@ const signUp = async (req, res) => {
 };
 
 const logIn = async (req, res) => {
-  const { email, password } = req.body;
   try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: 'KEY_ERROR' });
+    }
+
     const token = await userService.logIn(email, password);
 
     return res.status(201).json({
       message: 'LOGIN_SUCCESS',
-      token: token
+      token: token,
     });
-
   } catch (err) {
     console.log(err);
-    return res.status(err.statusCode || 500).json({ message: err.message })
+    return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
 
-module.exports = { validateForm, signUp, logIn };
+const test = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const dormId = req.body.dormitory;
+
+    return res.status(200).json({ message: 'success' });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+// const isLike = async (req, res) => {
+//   try {
+//     const userId = req.userId;
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(err.statusCode || 500).json({ message: err.message });
+//   }
+// };
+
+module.exports = { signUp, logIn, test };

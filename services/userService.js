@@ -81,10 +81,10 @@ const logIn = async (email, password) => {
     error.statusCode = 400;
     throw error;
   }
-
+  const id = await userDao.getUserIdByEmail(email);
   const loginToken = jwt.sign(
     {
-      user_id: user.id,
+      id: id,
     },
     process.env.SECRET_KEY
   );
