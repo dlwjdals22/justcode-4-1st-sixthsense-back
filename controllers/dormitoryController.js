@@ -1,4 +1,4 @@
-const dormitoryService = require("../services/dormitoryServicesGH");
+const dormitoryService = require("../services/dormitoryServices");
 
 const dormitoriesImage = async (req, res, next) => {
   try {
@@ -50,9 +50,22 @@ const getSearchedDormitories = async (req, res) => {
   }
 };
 
+const detail = async (req, res, next) => {
+  try {
+    const para = req.params.id;
+    const getDetail = await dormitoryService.detail(para);
+
+    return res.status(200).json({ data: getDetail });
+  } catch (err) {
+    console.log(err);
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   dormitories,
   dormitoriesImage,
   cities,
   getSearchedDormitories,
+  detail,
 };

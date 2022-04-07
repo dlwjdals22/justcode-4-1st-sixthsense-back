@@ -1,6 +1,59 @@
 const { PrismaClient, Prisma } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const getDetail = async (para) => {
+  return await prisma.$queryRaw`
+  SELECT
+    d.id AS id,
+    d.name AS dormitoryName,
+    d.comment,
+    d.main_description,
+    d.sub_description,
+    ci.name AS city,
+    dis.name AS district,
+    (SELECT 
+      JSON_ARRAYAGG(y.image_url)
+      FROM dormitories x
+      JOIN dormitories_images y ON y.dormitory_id = x.id
+      WHERE d.id = x.id
+      GROUP BY x.id) AS dormitoryImageUrl,
+    (SELECT
+      JSON_ARRAYAGG(y.title)
+      FROM dormitories x
+      JOIN rooms_specials y ON y.dormitory_id = x.id
+      WHERE d.id = x.id
+      GROUP BY x.id) AS roomSpecialTitle,
+    (SELECT
+      JSON_ARRAYAGG(y.description)
+      FROM dormitories x
+      JOIN rooms_specials y ON y.dormitory_id = x.id
+      WHERE d.id = x.id
+      GROUP BY x.id) AS roomSpecialDes,
+      (SELECT
+        JSON_ARRAYAGG(y.name)
+        FROM dormitories x
+        JOIN recommend_places y ON y.dormitory_id = x.id
+        WHERE d.id = x.id
+        GROUP BY x.id) AS recommendPlacesName,
+        (SELECT
+          JSON_ARRAYAGG(y.type)
+          FROM dormitories x
+          JOIN recommend_places y ON y.dormitory_id = x.id
+          WHERE d.id = x.id
+          GROUP BY x.id) AS recommendPlacesType,
+      (SELECT
+        JSON_ARRAYAGG(y.description)
+        FROM dormitories x
+        JOIN recommend_places y ON y.dormitory_id = x.id
+        WHERE d.id = x.id
+        GROUP BY x.id) AS recommendPlacesDes
+  FROM dormitories d
+  LEFT JOIN cities ci ON ci.id =  d.city_id
+  LEFT JOIN districts dis ON dis.id = d.city_id
+  WHERE d.id = ${para}
+  `;
+};
+
 const getDormitoriesImage = async () => {
   return await prisma.$queryRaw`
   SELECT 
@@ -103,11 +156,9 @@ GROUP BY d.id
 ORDER BY d.id) AS myTable
 ${
   !isAll
-    ? Prisma.sql`
-  WHERE category in (${first}, ${second}, ${third}, ${fourth})`
+    ? Prisma.sql`WHERE category in (${first}, ${second}, ${third}, ${fourth})`
     : Prisma.empty
-}
-;`;
+};`;
 };
 
 module.exports = {
@@ -115,4 +166,5 @@ module.exports = {
   getDormitoriesImage,
   getCities,
   getSearchedDormitories,
+  getDetail,
 };

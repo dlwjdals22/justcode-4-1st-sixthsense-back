@@ -1,4 +1,4 @@
-const dormitoryDao = require("../models/dormitoryDaoGH");
+const dormitoryDao = require("../models/dormitoryDao");
 
 const dormitoriesImage = async () => {
   const getDormitoriesImage = await dormitoryDao.getDormitoriesImage();
@@ -51,9 +51,15 @@ const getSearchedDormitories = async (keyword, category) => {
   return searchedDormitories;
 };
 
+const detail = async (para) => {
+  const getDetail = await dormitoryDao.getDetail(para);
+  return getDetail;
+};
+
 module.exports = {
   dormitories,
   dormitoriesImage,
   cities,
   getSearchedDormitories,
+  detail,
 };
