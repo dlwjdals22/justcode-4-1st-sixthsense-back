@@ -2,12 +2,13 @@ const http = require('http');
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const routes = require('./routes');
-
+const cors = require('cors'); // back
 const prisma = new PrismaClient();
 
 const app = express();
 
 app.use(express.json());
+app.use(cors()); // back
 app.use(routes); // Route 에 의존성을 가집니다.
 
 app.get('/', (req, res) => {

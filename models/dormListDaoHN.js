@@ -39,7 +39,7 @@ const getDormitories = async () => {
     `
 }
 
-const getSearchedDormitories = async (keyword, isAll, pension, guestHouse, hotel, rentalHouse) => {
+const getSearchedDormitories = async (keyword, isAll, first, second, third, fourth) => {
     keyword = '%'+keyword+'%'
     return await prisma.$queryRaw`
     SELECT * FROM
@@ -77,7 +77,7 @@ GROUP BY d.id
 ORDER BY d.id) AS myTable
 ${!isAll ?
     Prisma.sql`
-    WHERE category in (${pension}, ${guestHouse}, ${hotel}, ${rentalHouse})`
+    WHERE category in (${first}, ${second}, ${third}, ${fourth})`
     :
     Prisma.empty
 }
