@@ -63,7 +63,24 @@ const getDetail = async () => {
     LEFT JOIN dormitories_images y ON y.dormitory_id = x.id
     WHERE x.id = d.id
     GROUP BY x.id
-  ) AS imageUrl
+  ) AS imageUrl,
+
+  (SELECT 
+    JSON_ARRAYAGG(y. title)
+    FROM dormitories x
+    LEFT JOIN rooms_specials y ON y.dormitory_id = x.id
+    WHERE x.id = d.id
+    GROUP BY x.id
+  ) AS title,
+
+  (SELECT 
+    JSON_ARRAYAGG(y. description)
+    FROM dormitories x
+    LEFT JOIN rooms_specials y ON y.dormitory_id = x.id
+    WHERE x.id = d.id
+    GROUP BY x.id
+  ) AS sub_description
+  
 
   FROM dormitories d
 
