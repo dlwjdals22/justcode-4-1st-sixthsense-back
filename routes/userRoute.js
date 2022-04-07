@@ -1,8 +1,13 @@
 const express = require('express');
-const router = express.Router();
 
 const userController = require('../controllers/userController');
+const { validateToken } = require('../middleware/authorization');
 
-router.post('/signup', userController.validateForm, userController.signUp);
+const router = express.Router();
+
+router.post('/login', userController.logIn);
+router.post('/signup', userController.signUp);
+router.get('/test', validateToken, userController.test);
+// router.get('/is-like', validateToken, userController.isLike);
 
 module.exports = router;
