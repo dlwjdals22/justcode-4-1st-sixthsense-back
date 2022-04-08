@@ -61,13 +61,6 @@ const signUp = async (email, password, username, phoneNumber) => {
 };
 
 const logIn = async (email, password) => {
-  //이메일 또는 비밀번호 입력했는지 확인
-  if (!email || !password) {
-    const error = new Error('KEY_ERROR');
-    error.statusCode = 400;
-    throw arr;
-  }
-
   // 회원가입한 유저인지 아닌지 확인
   const user = await userDao.getUserEmailByEmail(email);
   if (user.length === 0) {
@@ -88,10 +81,10 @@ const logIn = async (email, password) => {
     error.statusCode = 400;
     throw error;
   }
-
+  const id = await userDao.getUserIdByEmail(email);
   const loginToken = jwt.sign(
     {
-      user_id: user.id,
+      id: id,
     },
     process.env.SECRET_KEY
   );

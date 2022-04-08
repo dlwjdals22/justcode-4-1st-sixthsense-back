@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const userRoute = require("./userRoute");
-const dormitoryRouter = require("./dormitoryRouterGH");
+const dormitoryRouter = require("./dormitoryRouter");
 const room = require("./roomsRouter");
 
 router.use("/dormitories", dormitoryRouter);
