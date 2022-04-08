@@ -7,7 +7,7 @@ const validateToken = async (req, res, next) => {
 
   const user = jwt.verify(token, process.env.SECRET_KEY);
 
-  const checkUser = await userDao.getUserIdbyId(user.id[0].id);
+  const checkUser = await userDao.getUserIdbyId(user.id ? user.id[0].id : '');
 
   if (!checkUser[0]) {
     res.status(404).json({ message: 'USER_NOT_FOUND' });

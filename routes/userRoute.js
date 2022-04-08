@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/login', userController.logIn);
 router.post('/signup', userController.signUp);
 router.get('/test', validateToken, userController.test);
-// router.get('/is-like', validateToken, userController.isLike);
+router.post('/heart', validateToken, userController.isLike);
+router.get('/heart', validateToken, userController.showLike);
 
 module.exports = router;
