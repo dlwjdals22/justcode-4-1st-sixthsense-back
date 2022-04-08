@@ -6,7 +6,6 @@ const validateToken = async (req, res, next) => {
     req.headers.authorization || jwt.sign({}, process.env.SECRET_KEY);
 
   const user = jwt.verify(token, process.env.SECRET_KEY);
-  console.log(user);
 
   const checkUser = await userDao.getUserIdbyId(user.id ? user.id[0].id : '');
 

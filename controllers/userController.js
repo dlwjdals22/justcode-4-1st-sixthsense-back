@@ -46,12 +46,10 @@ const test = async (req, res) => {
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
-
 const isLike = async (req, res) => {
   try {
     const userId = req.userId;
     const dormId = req.body.dormId;
-    console.log(req.body);
 
     await userService.isLike(userId, dormId);
 
