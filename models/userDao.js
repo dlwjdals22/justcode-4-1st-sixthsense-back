@@ -37,7 +37,7 @@ const likeOn = async (userId, dormId) => {
 
 const likeOff = async (userId, dormId) => {
   return await prisma.$queryRaw`
-    TRUNCATE users_dormitories_like WHERE user_id=${userId} AND dormitory_id=${dormId}`;
+    DELETE FROM users_dormitories_like WHERE user_id=${userId} AND dormitory_id=${dormId}`;
 };
 
 const getLikeTable = async () => {

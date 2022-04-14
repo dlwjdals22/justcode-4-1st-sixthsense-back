@@ -46,28 +46,35 @@ const test = async (req, res) => {
     return res.status(err.statusCode || 500).json({ message: err.message });
   }
 };
-const isLike = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const dormId = req.body.dormId;
 
-    await userService.isLike(userId, dormId);
+// const isLike = async (req, res) => {
+//   try {
+//     const userId = req.userId;
+//     const dormId = req.body.dormId;
 
-    return res.status(201).json({ message: 'isLike changed' });
-  } catch (err) {
-    console.log(err);
-    return res.status(err.statusCode || 500).json({ message: err.message });
-  }
+//     await userService.isLike(userId, dormId);
+
+//     return res.status(201).json({ message: 'isLike changed' });
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(err.statusCode || 500).json({ message: err.message });
+//   }
+// };
+
+// const showLike = async (req, res) => {
+//   try {
+//     const LikeData = userService.showLike();
+//     return res.status(200).json({ likeTable: LikeData });
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(err.statusCode || 500).josn({ message: err.message });
+//   }
+// };
+
+module.exports = {
+  signUp,
+  logIn,
+  test,
+  // isLike,
+  // showLike
 };
-
-const showLike = async (req, res) => {
-  try {
-    const LikeData = userService.showLike();
-    return res.status(200).json({ likeTable: LikeData });
-  } catch (err) {
-    console.log(err);
-    return res.status(err.statusCode || 500).josn({ message: err.message });
-  }
-};
-
-module.exports = { signUp, logIn, test, isLike, showLike };

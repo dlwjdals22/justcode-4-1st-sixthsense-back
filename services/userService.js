@@ -92,20 +92,25 @@ const logIn = async (email, password) => {
   return loginToken;
 };
 
-const isLike = async (userId, dormId) => {
-  const liked = await userDao.checkExisting(userId, dormId);
-  if (liked[0]) {
-    await userDao.likeOff(userId, dormId);
-  } else {
-    await userDao.likeOn(userId, dormId);
-  }
+// const isLike = async (userId, dormId) => {
+//   const liked = await userDao.checkExisting(userId, dormId);
+//   if (liked[0]) {
+//     await userDao.likeOff(userId, dormId);
+//   } else {
+//     await userDao.likeOn(userId, dormId);
+//   }
 
-  return liked;
+//   return liked;
+// };
+
+// const showLike = async () => {
+//   const LikeData = await userDao.getLikeTable();
+//   return LikeData;
+// };
+
+module.exports = {
+  signUp,
+  logIn,
+  //  isLike,
+  //  showLike
 };
-
-const showLike = async () => {
-  const LikeData = await userDao.getLikeTable();
-  return LikeData;
-};
-
-module.exports = { signUp, logIn, isLike, showLike };

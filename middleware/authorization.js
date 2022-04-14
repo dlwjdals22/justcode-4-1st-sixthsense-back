@@ -2,17 +2,17 @@ const jwt = require('jsonwebtoken');
 const userDao = require('../models/userDao');
 
 const validateToken = async (req, res, next) => {
-  const token =
-    req.headers.authorization || jwt.sign({}, process.env.SECRET_KEY);
-
-  const user = jwt.verify(token, process.env.SECRET_KEY);
-
-  const checkUser = await userDao.getUserIdbyId(user.id ? user.id[0].id : '');
-
-  if (!checkUser[0]) {
+  const token = req.headers.authorization || '';
+  if (!token || token === '') {
     res.status(404).json({ message: 'USER_NOT_FOUND' });
     return;
   }
+
+  const user = jwt.verify(token, process.env.SECRET_KEY);
+  console.log(user);
+  const checkUser = await userDao.getUserIdbyId(
+    user.id[0] ? user.id[0].id : ''
+  );
 
   req.userId = user.id[0].id;
 
