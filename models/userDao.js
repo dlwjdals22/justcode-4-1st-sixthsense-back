@@ -30,20 +30,20 @@ const checkExisting = async (userId, dormId) => {
     SELECT user_id FROM users_dormitories_like WHERE user_id=${userId} AND dormitory_id=${dormId}`;
 };
 
-const likeOn = async (userId, dormId) => {
-  return await prisma.$queryRaw`
-    INSERT INTO users_dormitories_like(user_id, dormitory_id) VALUES (${userId}, ${dormId})`;
-};
+// const likeOn = async (userId, dormId) => {
+//   return await prisma.$queryRaw`
+//     INSERT INTO users_dormitories_like(user_id, dormitory_id) VALUES (${userId}, ${dormId})`;
+// };
 
-const likeOff = async (userId, dormId) => {
-  return await prisma.$queryRaw`
-    DELETE FROM users_dormitories_like WHERE user_id=${userId} AND dormitory_id=${dormId}`;
-};
+// const likeOff = async (userId, dormId) => {
+//   return await prisma.$queryRaw`
+//     DELETE FROM users_dormitories_like WHERE user_id=${userId} AND dormitory_id=${dormId}`;
+// };
 
-const getLikeTable = async () => {
-  return await prisma.$queryRaw`
-    SELECT * FROM users_dormitories_like`;
-};
+// const getLikeTable = async () => {
+//   return await prisma.$queryRaw`
+//     SELECT * FROM users_dormitories_like`;
+// };
 
 module.exports = {
   createUser,
@@ -52,7 +52,7 @@ module.exports = {
   passwordIsCorrect,
   getUserIdByEmail,
   checkExisting,
-  likeOn,
-  likeOff,
-  getLikeTable,
+  // likeOn,
+  // likeOff,
+  // getLikeTable,
 };
